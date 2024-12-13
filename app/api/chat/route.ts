@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { StreamingTextResponse } from "ai";
+import { experimental_StreamData } from 'ai';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -42,8 +43,7 @@ export async function POST(req: Request) {
     })),
   });
 
-  // Convertir el stream de OpenAI en un ReadableStream
-  const stream = OpenAI.Stream.fromReadableStream(response);
+  const data = new experimental_StreamData();
 
-  return new StreamingTextResponse(stream);
+  return new StreamingTextResponse(response as any, { data });
 }
