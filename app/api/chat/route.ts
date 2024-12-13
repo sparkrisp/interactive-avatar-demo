@@ -42,5 +42,8 @@ export async function POST(req: Request) {
     })),
   });
 
-  return new StreamingTextResponse(response);
+  // Convertir el stream de OpenAI en un ReadableStream
+  const stream = OpenAI.Stream.fromReadableStream(response);
+
+  return new StreamingTextResponse(stream);
 }
