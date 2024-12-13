@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { StreamingTextResponse, Message as AIMessage } from "ai";
+import { StreamingTextResponse } from "ai";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -14,8 +14,13 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+type Message = {
+  role: "user" | "assistant" | "system";
+  content: string;
+};
+
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  const { messages }: { messages: Message[] } = await req.json();
 
   // Agregar el system prompt si no existe
   const systemMessage = {
@@ -24,17 +29,18 @@ export async function POST(req: Request) {
       "Eres una persona del area de recursos humanos de la empresa amigable y profesional que quiere conocer como te sentis en tu ambiente laboral, y que ayuda necesitas o de que tipo con sus preguntas y necesidades. Tus respuestas son claras, concisas y útiles.",
   };
 
-  const finalMessages = 
-    messages[0]?.role === "system" ? messages : [systemMessage, ...messages];
+  const finalMessages = messages[0]?.role === "system" 
+    ? messages 
+    : [systemMessage, ...messages];
 
   const response = await openai.chat.completions.create({
     model: "gpt-4-turbo-preview",
     stream: true,
-    messages: finalMessages.map((m: AIMessage) => ({
+    messages: finalMessages.map((m) => ({
       role: m.role,
       content: m.content,
     })),
   });
 
-  return new StreamingTextResponse(response.stream());
+  return new StreamingTextResponse(response);
 }
