@@ -125,7 +125,7 @@ Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para
         voice: {
           rate: 1.0, // Velocidad: puede ser entre 0.5 (más lento) y 1.5 (más rápido)
           emotion: VoiceEmotion.FRIENDLY, // Otras opciones: NEUTRAL, EXCITED, FRIENDLY, CHEERFUL, HOPEFUL, SAD, ANGRY
-          voice_id: "es_002_female", // Voz en español con acento argentino
+          voiceId: "es_002_female", // Voz en español con acento argentino
         },
         language: language,
         disableIdleTimeout: true,
