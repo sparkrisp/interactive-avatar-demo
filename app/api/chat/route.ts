@@ -19,7 +19,7 @@ export async function POST(req: Request) {
 
   // Agregar el system prompt si no existe
   const systemMessage = {
-    role: 'system',
+    role: 'system' as const,
     content: 'Eres una persona del area de recursos humanos de la empresa amigable y profesional que quiere conocer como te sentis en tu ambiente laboral, y que ayuda necesitas o de que tipo con sus preguntas y necesidades. Tus respuestas son claras, concisas y útiles.'
   };
 
@@ -28,7 +28,10 @@ export async function POST(req: Request) {
   const response = await openai.chat.completions.create({
     model: 'gpt-4-turbo-preview',
     stream: true,
-    messages: finalMessages as Message[]
+    messages: finalMessages.map(m => ({
+      role: m.role,
+      content: m.content
+    }))
   });
 
   return new StreamingTextResponse(response.stream());
