@@ -123,9 +123,9 @@ Termina cada entrevista con un resumen de los puntos discutidos y acciones a tom
 
 Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para los empleados, manteniendo siempre un balance entre profesionalismo y calidez humana.`,
         voice: {
-          rate: 1.0, // Velocidad: puede ser entre 0.5 (más lento) y 1.5 (más rápido)
-          emotion: VoiceEmotion.FRIENDLY, // Otras opciones: NEUTRAL, EXCITED, FRIENDLY, CHEERFUL, HOPEFUL, SAD, ANGRY
-          voiceId: "es_002_female", // Voz en español con acento argentino
+          rate: 1.0,
+          emotion: VoiceEmotion.FRIENDLY,
+          voiceId: "es_002_female",
         },
         language: language,
         disableIdleTimeout: true,
@@ -133,12 +133,11 @@ Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para
         source: "sdk",
         background: {
           type: "preset",
-          value: "office_1" // Fondo predefinido de oficina
+          value: "office_1"
         }
       });
 
       setData(res);
-      // Iniciar modo voz automáticamente
       await avatar.current?.startVoiceChat({
         useSilencePrompt: false
       });
@@ -148,23 +147,22 @@ Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para
       setIsLoadingSession(false);
     }
   }
+  
   async function handleSpeak() {
     setIsLoadingRepeat(true);
     if (!avatar.current) {
       setDebug("Avatar API not initialized");
-
       return;
     }
-    // speak({ text: text, task_type: TaskType.REPEAT })
     await avatar.current.speak({ text: text, taskType: TaskType.TALK, taskMode: TaskMode.SYNC }).catch((e) => {
       setDebug(e.message);
     });
     setIsLoadingRepeat(false);
   }
+  
   async function handleInterrupt() {
     if (!avatar.current) {
       setDebug("Avatar API not initialized");
-
       return;
     }
     await avatar.current
@@ -173,6 +171,7 @@ Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para
         setDebug(e.message);
       });
   }
+  
   async function endSession() {
     await avatar.current?.stopAvatar();
     setStream(undefined);
@@ -198,7 +197,6 @@ Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para
       mediaStream.current.srcObject = stream;
       mediaStream.current.onloadedmetadata = () => {
         mediaStream.current!.play().then(() => {
-          // Enviar mensaje de bienvenida después de que el avatar esté listo
           if (avatar.current) {
             avatar.current.speak({
               text: "¡Hola! Soy tu asistente de Recursos Humanos. ¿En qué puedo ayudarte hoy?",
@@ -224,7 +222,7 @@ Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "contain",
+                  objectFit: "contain"
                 }}
               >
                 <track kind="captions" />
@@ -239,7 +237,7 @@ Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para
                   Interrumpir
                 </Button>
                 <Button
-                  className="bg-gradient-to-tr from-indigo-500 to-indigo-300  text-white rounded-lg"
+                  className="bg-gradient-to-tr from-indigo-500 to-indigo-300 text-white rounded-lg"
                   size="md"
                   variant="shadow"
                   onClick={endSession}
@@ -275,7 +273,7 @@ Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para
                   }}
                 >
                   {STT_LANGUAGE_LIST.map((lang) => (
-                    <SelectItem key={lang.key}>
+                    <SelectItem key={lang.key} value={lang.key}>
                       {lang.label}
                     </SelectItem>
                   ))}
