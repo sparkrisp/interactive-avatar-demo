@@ -129,7 +129,6 @@ Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para
         },
         language: language,
         disableIdleTimeout: true,
-        version: "v2", // Versión de la API
         videoEncoding: "H264",
         source: "sdk",
         background: {
