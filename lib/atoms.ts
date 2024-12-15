@@ -1,5 +1,5 @@
 import { RefObject } from "react"
-import type { StreamingAvatarApi } from "@heygen/streaming-avatar"
+import type { StreamingAvatarApiConfig } from "@heygen/streaming-avatar"
 import { atom } from "jotai"
 
 //Stream Atoms
@@ -9,9 +9,9 @@ export const debugAtom = atom<string>("")
 export const inputTextAtom = atom<string>("")
 export const avatarIdAtom = atom<string>("")
 export const voiceIdAtom = atom<string>("")
-export const sessionDataAtom = atom<any | undefined>(undefined)
-export const qualityAtom = atom<string>("medium")
-export const avatarAtom = atom<RefObject<StreamingAvatarApi> | undefined>(undefined)
+export const sessionDataAtom = atom<any>(undefined)  // cambiado a any para evitar problemas de tipos
+export const qualityAtom = atom<"low" | "medium" | "high">("medium")
+export const avatarAtom = atom<RefObject<StreamingAvatarApiConfig> | undefined>(undefined)
 
 // Video Processing Atoms
 export const mediaCanvasRefAtom = atom<RefObject<HTMLCanvasElement> | undefined>(undefined)
