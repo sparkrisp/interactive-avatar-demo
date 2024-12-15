@@ -128,11 +128,7 @@ Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para
           voiceId: "es_002_female",
         },
         language: language,
-        disableIdleTimeout: true,
-        background: {
-          type: "preset",
-          value: "office_1"
-        }
+        disableIdleTimeout: true
       });
 
       setData(res);
