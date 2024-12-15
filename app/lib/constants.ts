@@ -1,10 +1,5 @@
 export const AVATARS = [
   {
-    id: '953132e47b394283a68b001233075135',
-    name: 'Martina - Recursos Humanos',
-    avatar_id: '953132e47b394283a68b001233075135'
-  },
-  {
     id: 'Anna_public_3_20240108',
     name: 'Ana - Recursos Humanos',
     avatar_id: 'Anna_public_3_20240108'
