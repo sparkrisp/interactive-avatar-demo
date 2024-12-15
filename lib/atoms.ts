@@ -17,5 +17,10 @@ export const voiceIdAtom = atom<string>("")
 export const qualityAtom = atom<NewSessionRequestQualityEnum>("medium")
 export const avatarAtom = atom<RefObject<StreamingAvatarApi> | undefined>(undefined)
 
+// Video Processing Atoms
+export const mediaCanvasRefAtom = atom<RefObject<HTMLCanvasElement> | undefined>(undefined)
+export const mediaStreamRefAtom = atom<RefObject<HTMLVideoElement> | undefined>(undefined)
+export const removeBGAtom = atom<boolean>(false)
+
 //UI Atoms
 export const customBgPicAtom = atom<string>("")
