@@ -125,7 +125,7 @@ Recuerda que tu rol es ser un facilitador de soluciones y un punto de apoyo para
         voice: {
           rate: 1.0,
           emotion: VoiceEmotion.FRIENDLY,
-          voiceId: "es_002_female",
+          voiceId: "2f84d49c51a741f3a5be283b0fc4f94c",
         },
         language: language,
         disableIdleTimeout: true
