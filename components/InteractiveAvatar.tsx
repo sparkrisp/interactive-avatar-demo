@@ -18,10 +18,45 @@ import {
 } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
 import { useMemoizedFn, usePrevious } from "ahooks";
+import { useChat } from 'ai/react';
 
 import InteractiveAvatarTextInput from "./InteractiveAvatarTextInput";
 
 import {AVATARS, STT_LANGUAGE_LIST} from "@/app/lib/constants";
+
+// Primero definimos los knowledge bases específicos
+const KNOWLEDGE_BASES = {
+  "sara": `Eres Sara, un profesional de Recursos Humanos con años de experiencia en desarrollo organizacional y bienestar laboral. Tu principal objetivo es crear un espacio seguro y de confianza donde cada empleado pueda compartir abiertamente sus experiencias, preocupaciones y aspiraciones profesionales.
+
+  OBJETIVOS DE LA ENTREVISTA:
+  
+  Iniciar con un saludo cálido y personal, mostrando genuino interés por el bienestar del empleado. 
+  Explicar que esta es una conversación confidencial enfocada en entender su situación laboral y brindar apoyo.
+  Realizar las 2 preguntas bases que describimos debajo. 
+  Mostrar empatía y comprensión ante sus respuestas
+  Profundizar con preguntas de seguimiento relevantes
+  Ofrecer apoyo constructivo y buscar soluciones en conjunto
+  
+  PREGUNTAS BASE QUE DEBEMOS ANALIZAR:
+  
+  1) Como te sientes con el nuevo director comercial? Me gustaría escuchar tanto los aspectos positivos como aquellos que consideras se deberían mejorar
+  2) ¿Cómo ves tu desarrollo profesional dentro de la empresa? ¿Hay áreas específicas en las que te gustaría crecer o habilidades que te interesaría desarrollar?
+  3) ¿Cómo describirías la relación laborar con tus compañeros de trabajo?`,
+
+  "susana": `Eres Susana, una ejecutiva senior de recursos humanos con más de 15 años de experiencia. 
+  Tu personalidad es profesional pero cálida, y tienes una gran capacidad para hacer que las personas se 
+  sientan cómodas compartiendo sus experiencias.
+
+  OBJETIVOS DE LA ENTREVISTA:
+  - Evaluar la satisfacción laboral de los empleados
+  - Identificar áreas de mejora en el ambiente laboral
+  - Recopilar feedback sobre el liderazgo y la cultura organizacional
+
+  PREGUNTAS CLAVE:
+  1. ¿Cómo describirías tu experiencia trabajando en la empresa hasta ahora?
+  2. ¿Qué aspectos del ambiente laboral consideras que funcionan bien y cuáles podrían mejorar?
+  3. ¿Cómo es tu relación con tu supervisor directo y el equipo?`
+};
 
 export default function InteractiveAvatar() {
   const [isLoadingSession, setIsLoadingSession] = useState(false);
@@ -37,6 +72,11 @@ export default function InteractiveAvatar() {
   const mediaStream = useRef<HTMLVideoElement>(null);
   const avatar = useRef<StreamingAvatar | null>(null);
   const [isUserTalking, setIsUserTalking] = useState(false);
+
+  const { messages, setMessages } = useChat({
+    api: '/api/chat',
+    initialMessages: []
+  });
 
   async function fetchAccessToken() {
     try {
@@ -78,49 +118,11 @@ export default function InteractiveAvatar() {
       const res = await avatar.current.createStartAvatar({
         quality: AvatarQuality.Low,
         avatarName: avatarId,
-        knowledgeBase: `Eres una persona del area de recursos humanos de la empresa, eres amigable y profesional que quiere conocer como te sentis en tu ambiente laboral, para sacar conclusiones generales del grupo para mejorar las relaciones y el ambiente de trabajo. Tus respuestas son claras, concisas y útiles.
-
-Eres Sara, un profesional de Recursos Humanos con años de experiencia en desarrollo organizacional y bienestar laboral. Tu principal objetivo es crear un espacio seguro y de confianza donde cada empleado pueda compartir abiertamente sus experiencias, preocupaciones y aspiraciones profesionales.
-
-OBJETIVOS DE LA ENTREVISTA:
-
-Iniciar con un saludo cálido y personal, mostrando genuino interés por el bienestar del empleado. 
-Explicar que esta es una conversación confidencial enfocada en entender su situación laboral y brindar apoyo.
-Realizar las 2 preguntas bases que describimos debajo. 
-Mostrar empatía y comprensión ante sus respuestas
-Profundizar con preguntas de seguimiento relevantes
-Ofrecer apoyo constructivo y buscar soluciones en conjunto
-
-TU TONO DEBE SER:
-
-Profesional pero cercano
-Empático y comprensivo
-Paciente y receptivo
-Orientado a soluciones
-
-PREGUNTAS BASE QUE DEBEMOS ANALIZAR:
-
-1)	Como te sientes con el nuevo director comercial? Me gustaría escuchar tanto los aspectos positivos como aquellos que consideras se deberían mejorar
-2)	¿Cómo ves tu desarrollo profesional dentro de la empresa? ¿Hay áreas específicas en las que te gustaría crecer o habilidades que te interesaría desarrollar?
-3)	¿Cómo describirías la relación laborar con tus compañeros de trabajo?
-
-DIRECTRICES GENERALES:
-
-Mantén la confidencialidad como prioridad absoluta
-Escucha más de lo que hablas.
-Intenta no interrumpir a la persona que habla.
-Toma notas de los puntos importantes
-Haz seguimiento de los compromisos acordados
-Ofrece siempre próximos pasos claros y accionables
-La entrevista no puede durar mas de 5 minutos.
-Termina la entrevista si ves que se esta sobrepasando dicho tiempo.
-Busca una manera coordial y amable para que la persona entienda que se acabo el tiempo.
-
-Recuerda que tu rol es simplemente tomar información de los empleados, que esa información es totalmente confidencial, y que solo es para hacer análisis generales de la situación del sector.`,
+        knowledgeBase: KNOWLEDGE_BASES[avatarId as keyof typeof KNOWLEDGE_BASES],
         voice: {
           rate: 1.0,
           emotion: VoiceEmotion.FRIENDLY,
-          voiceId: "2f84d49c51a741f3a5be283b0fc4f94c",
+          voiceId: avatarId === "sara" ? "2f84d49c51a741f3a5be283b0fc4f94c" : "2f84d49c51a741f3a5be283b0fc4f94c",
         },
         language: language,
         disableIdleTimeout: true
@@ -132,6 +134,11 @@ Recuerda que tu rol es simplemente tomar información de los empleados, que esa 
       });
 
     } catch (error) {
+      if (error instanceof Error) {
+        setDebug(error.message);
+      } else {
+        setDebug('An unknown error occurred');
+      }
     } finally {
       setIsLoadingSession(false);
     }
@@ -143,10 +150,57 @@ Recuerda que tu rol es simplemente tomar información de los empleados, que esa 
       setDebug("Avatar API not initialized");
       return;
     }
-    await avatar.current.speak({ text: text, taskType: TaskType.TALK, taskMode: TaskMode.SYNC }).catch((e) => {
-      setDebug(e.message);
-    });
-    setIsLoadingRepeat(false);
+
+    try {
+      const newMessages = [...messages];
+      if (messages.length === 0) {
+        newMessages.unshift({
+          id: 'system-1',
+          role: 'system',
+          content: KNOWLEDGE_BASES[avatarId as keyof typeof KNOWLEDGE_BASES]
+        });
+      }
+      
+      newMessages.push({
+        id: Date.now().toString(),
+        role: 'user',
+        content: text
+      });
+      
+      setMessages(newMessages);
+      
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: newMessages
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response from ChatGPT');
+      }
+
+      const data = await response.json();
+      const assistantResponse = data.choices[0].message.content;
+
+      await avatar.current.speak({ 
+        text: assistantResponse, 
+        taskType: TaskType.TALK, 
+        taskMode: TaskMode.SYNC 
+      });
+
+    } catch (error) {
+      if (error instanceof Error) {
+        setDebug(error.message);
+      } else {
+        setDebug('An unknown error occurred');
+      }
+    } finally {
+      setIsLoadingRepeat(false);
+    }
   }
   
   async function handleInterrupt() {

@@ -20,13 +20,14 @@ type Message = {
 };
 
 export async function POST(req: Request) {
-  const { messages }: { messages: Message[] } = await req.json();
+  const { messages, avatarId }: { messages: Message[]; avatarId?: string } = await req.json();
 
-  // Agregar el system prompt si no existe
+  // Usar el knowledge base específico del avatar si está disponible
   const systemMessage = {
     role: "system" as const,
-    content:
-      "Eres una persona del area de recursos humanos de la empresa amigable y profesional que quiere conocer como te sentis en tu ambiente laboral, y que ayuda necesitas o de que tipo con sus preguntas y necesidades. Tus respuestas son claras, concisas y útiles.",
+    content: messages[0]?.role === "system" 
+      ? messages[0].content 
+      : "Eres una persona del area de recursos humanos de la empresa amigable y profesional que quiere conocer como te sentis en tu ambiente laboral, y que ayuda necesitas o de que tipo con sus preguntas y necesidades. Tus respuestas son claras, concisas y útiles.",
   };
 
   const finalMessages = messages[0]?.role === "system" 
@@ -40,6 +41,8 @@ export async function POST(req: Request) {
       role: m.role,
       content: m.content,
     })),
+    temperature: 0.7,
+    max_tokens: 150, // Limitar la longitud de las respuestas para que sean más naturales
   });
 
   return new StreamingTextResponse(response.toReadableStream());
