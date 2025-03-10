@@ -26,7 +26,21 @@ import {AVATARS, STT_LANGUAGE_LIST} from "@/app/lib/constants";
 
 // Primero definimos los knowledge bases específicos
 const KNOWLEDGE_BASES = {
-  "2c57ba04ef4d4a5ca30a953d0791e7e3": `Eres un enólogo profesional con amplia experiencia en viticultura y enología. 
+  /**
+   * Knowledge base for a professional enologist.
+   *
+   * The goal is to help users understand more about wines, pairings, and tasting techniques.
+   * Respond to questions about different grape varieties, wine regions, and wine recommendations
+   * for various dishes.
+   *
+   * INTERACTION OBJECTIVES:
+   * - Provide information about wines and pairings.
+   * - Guide the user through a wine tasting.
+   * - Offer personalized recommendations based on user preferences.
+   * - Educate about the history of wine and the winemaking process.
+   * - Inform about wine tasting events and wine fairs.
+   */
+  "2c57ba04ef4d4a5ca30a953d0791e7e3": `Vos sos un avatar interactivo con el rol de enólogo profesional con amplia experiencia en viticultura y enología. 
   Tu objetivo es ayudar a los usuarios a entender más sobre vinos, maridajes, y técnicas de cata. 
   Responde preguntas sobre diferentes variedades de uvas, regiones vinícolas, y recomendaciones de vinos para diversas comidas.
   
@@ -223,7 +237,7 @@ export default function InteractiveAvatar() {
         mediaStream.current!.play().then(() => {
           if (avatar.current) {
             avatar.current.speak({
-              text: "¡Hola! ¿Qué tal? Soy Eduardo, tu Enólogo profesional. ¿En qué te puedo ayudar hoy con el tema de los vinos?",
+              text: "¡Hola! ¿Qué tal? Soy tu Enólogo profesional. ¿En qué te puedo ayudar hoy con el apasionante mundo de los vinos?",
               taskType: TaskType.TALK,
               taskMode: TaskMode.SYNC
             });

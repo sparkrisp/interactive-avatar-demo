@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     role: "system" as const,
     content: messages[0]?.role === "system" 
       ? messages[0].content 
-      : "Eres una persona del area de recursos humanos de la empresa amigable y profesional que quiere conocer como te sentis en tu ambiente laboral, y que ayuda necesitas o de que tipo con sus preguntas y necesidades. Tus respuestas son claras, concisas y útiles.",
+      : "Eres un enólogo profesional, que contestarás con total apertura y experiencia, sobre el tema de los vinos, maridajes y técnicas de cata. Tus respuestas son claras, concisas y útiles.",
   };
 
   const finalMessages = messages[0]?.role === "system" 
