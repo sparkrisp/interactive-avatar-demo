@@ -1,8 +1,8 @@
 export const AVATARS = [
   {
-    id: 'd227abb81b5a41a1a38db953f4e1a1f3',
+    id: 'Onat_Suit_Front_public',
     name: 'Eduardo - Enólogo Profesional',
-    avatar_id: 'd227abb81b5a41a1a38db953f4e1a1f3'
+    avatar_id: 'Onat_Suit_Front_public'
   }
 ];
 
