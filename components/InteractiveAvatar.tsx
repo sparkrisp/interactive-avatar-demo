@@ -103,7 +103,7 @@ export default function InteractiveAvatar() {
         voice: {
           rate: 0.9,
           emotion: VoiceEmotion.FRIENDLY,
-          voiceId: "es_005"
+          voiceId: "ffb5979428d642abaa9cae60110824e3"
         },
         language: language,
         disableIdleTimeout: true
