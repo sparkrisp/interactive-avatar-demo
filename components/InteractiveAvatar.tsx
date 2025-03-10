@@ -223,7 +223,7 @@ export default function InteractiveAvatar() {
         mediaStream.current!.play().then(() => {
           if (avatar.current) {
             avatar.current.speak({
-              text: "¡Hola! ¿Qué tal? Soy Milton, tu Enólogo profesional. ¿En qué te puedo ayudar hoy con el tema de los vinos?",
+              text: "¡Hola! ¿Qué tal? Soy Eduardo, tu Enólogo profesional. ¿En qué te puedo ayudar hoy con el tema de los vinos?",
               taskType: TaskType.TALK,
               taskMode: TaskMode.SYNC
             });
