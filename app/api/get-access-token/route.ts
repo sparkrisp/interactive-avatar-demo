@@ -6,11 +6,19 @@ const HEYGEN_API_KEY = process.env.HEYGEN_API_KEY;
  */
 export async function POST() {
   try {
+    console.log("==== HEYGEN API KEY DIAGNOSTICS ====");
+    console.log("API Key exists:", !!HEYGEN_API_KEY);
+    
     if (!HEYGEN_API_KEY) {
       throw new Error("API key is missing from .env");
     }
-
-    console.log("Attempting to fetch token with API key length:", HEYGEN_API_KEY.length);
+    
+    // Mostrar información sobre la API key para diagnóstico
+    console.log("API Key length:", HEYGEN_API_KEY.length);
+    console.log("API Key first 10 chars:", HEYGEN_API_KEY.substring(0, 10));
+    console.log("API Key last 10 chars:", HEYGEN_API_KEY.substring(HEYGEN_API_KEY.length - 10));
+    console.log("API Key timestamp:", new Date().toISOString());
+    console.log("================================");
 
     const res = await fetch(
       "https://api.heygen.com/v1/streaming.create_token",
@@ -22,8 +30,12 @@ export async function POST() {
       },
     );
     
+    console.log("API Response status:", res.status);
+    console.log("API Response status text:", res.statusText);
+    
     if (!res.ok) {
       const errorText = await res.text();
+      console.log("API Error response:", errorText);
       throw new Error(`API responded with status ${res.status}: ${errorText}`);
     }
     
