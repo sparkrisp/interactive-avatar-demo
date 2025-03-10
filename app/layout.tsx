@@ -18,8 +18,8 @@ const fontMono = FontMono({
 });
 
 export const metadata = {
-  title: 'Asistente Virtual de Recursos Humanos - B.live',
-  description: 'Asistente virtual de recursos humanos para empleados de B.live',
+  title: 'Asistente Enólogo - B.live',
+  description: 'Asistente virtual enólogo especializado en vinos y maridajes',
 }
 
 export const viewport: Viewport = {

@@ -16,7 +16,7 @@ export default function NavBar() {
         <img src="/blive_header.png" alt="Blive Logo" className="h-12" />
         <div className="bg-gradient-to-br from-sky-300 to-indigo-500 bg-clip-text ml-4 flex items-center">
           <p className="text-xl font-semibold text-transparent">
-            Asistente de Recursos Humanos
+            Asistente Enólogo
           </p>
         </div>
       </NavbarBrand>
