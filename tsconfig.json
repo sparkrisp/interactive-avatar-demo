@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "esnext",
+    "module": "Node16",
     "moduleResolution": "node16",
     "target": "es2020",
     "lib": ["esnext", "dom", "dom.iterable"],
@@ -18,5 +18,3 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
-
-
