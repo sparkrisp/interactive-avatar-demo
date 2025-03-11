@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server.js';
 
 const HEYGEN_API_KEY = process.env.HEYGEN_API_KEY;
 
