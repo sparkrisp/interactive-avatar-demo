@@ -45,5 +45,7 @@ export async function POST(req: Request) {
     max_tokens: 150, // Limitar la longitud de las respuestas para que sean más naturales
   });
 
-  return new StreamingTextResponse(response.toReadableStream());
+  //return new StreamingTextResponse(response.toReadableStream());
+  return new StreamingTextResponse(response.toReadableStream() as unknown as ReadableStream);
+
 }
