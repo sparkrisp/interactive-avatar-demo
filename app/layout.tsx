@@ -2,10 +2,10 @@ import "@/styles/globals.css";
 import clsx from "clsx";
 import { Metadata, Viewport } from "next";
 
-import { Providers } from "./providers";
+import { Providers } from "./providers.js";
 
 import { Fira_Code as FontMono, Inter as FontSans } from "next/font/google";
-import NavBar from "@/components/NavBar";
+import NavBar from "@/components/NavBar.js";
 
 const fontSans = FontSans({
   subsets: ["latin"],

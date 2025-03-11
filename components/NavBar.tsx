@@ -7,7 +7,7 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react";
-import { ThemeSwitch } from "./ThemeSwitch";
+import { ThemeSwitch } from "./ThemeSwitch.js";
 
 export default function NavBar() {
   return (

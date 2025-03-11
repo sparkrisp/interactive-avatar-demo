@@ -20,7 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import { useMemoizedFn, usePrevious } from "ahooks";
 import { useChat } from 'ai/react';
 
-import InteractiveAvatarTextInput from "./InteractiveAvatarTextInput";
+import InteractiveAvatarTextInput from "./InteractiveAvatarTextInput.js";
 
 import {AVATARS, STT_LANGUAGE_LIST} from "@/app/lib/constants";
 
