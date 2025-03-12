@@ -2,10 +2,10 @@ import "@/styles/globals.css";
 import clsx from "clsx";
 import { Metadata, Viewport } from "next";
 
-import { Providers } from "./providers.js";
+import { Providers } from "./providers";
 
 import { Fira_Code as FontMono, Inter as FontSans } from "next/font/google";
-import NavBar from "@/components/NavBar.js";
+import NavBar from "@/components/NavBar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -17,7 +17,7 @@ const fontMono = FontMono({
   variable: "--font-geist-mono",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Asistente Enólogo - B.live',
   description: 'Asistente virtual enólogo especializado en vinos y maridajes',
 }

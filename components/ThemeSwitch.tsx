@@ -6,11 +6,11 @@ import { SwitchProps, useSwitch } from "@nextui-org/switch";
 import { useTheme } from "next-themes";
 import { useIsSSR } from "@react-aria/ssr";
 import clsx from "clsx";
-import { MoonFilledIcon, SunFilledIcon } from "./Icons.js";
+import { MoonFilledIcon, SunFilledIcon } from "./Icons";
 
 export interface ThemeSwitchProps {
   className?: string;
-  classNames?: SwitchProps["classNames"];
+  classNames?: any;
 }
 
 export const ThemeSwitch: FC<ThemeSwitchProps> = ({

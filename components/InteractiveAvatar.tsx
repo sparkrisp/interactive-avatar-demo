@@ -11,21 +11,18 @@ import {
   CardFooter,
   Divider,
   Input,
-  Select,
-  SelectItem,
-  Spinner,
   Chip,
 } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
 import { useMemoizedFn, usePrevious } from "ahooks";
 import { useChat } from 'ai/react';
 
-import InteractiveAvatarTextInput from "./InteractiveAvatarTextInput.js";
+import InteractiveAvatarTextInput from "./InteractiveAvatarTextInput";
 
-import {AVATARS, STT_LANGUAGE_LIST} from "@/app/lib/constants";
+import { AVATARS, STT_LANGUAGE_LIST } from "@/app/lib/constants";
 
 // Primero definimos los knowledge bases específicos
-const KNOWLEDGE_BASES = {
+const KNOWLEDGE_BASES: { [key: string]: string } = {
   /**
    * Knowledge base for a professional enologist.
    *
@@ -287,35 +284,39 @@ export default function InteractiveAvatar() {
           ) : !isLoadingSession ? (
             <div className="h-full justify-center items-center flex flex-col gap-8 w-[500px] self-center">
               <div className="flex flex-col gap-2 w-full">
-                <Select
-                  label="Seleccionar avatar"
-                  placeholder="Selecciona un avatar"
-                  size="md"
-                  onChange={(e) => {
-                    setAvatarId(e.target.value);
-                  }}
-                >
-                  {AVATARS.map((avatar) => (
-                    <SelectItem key={avatar.id} value={avatar.id}>
-                      {avatar.name}
-                    </SelectItem>
-                  ))}
-                </Select>
-                <Select
-                  label="Seleccionar idioma"
-                  placeholder="Seleccionar idioma"
-                  className="max-w-xs"
-                  selectedKeys={[language]}
-                  onChange={(e) => {
-                    setLanguage(e.target.value);
-                  }}
-                >
-                  {STT_LANGUAGE_LIST.map((lang) => (
-                    <SelectItem key={lang.key} value={lang.key}>
-                      {lang.label}
-                    </SelectItem>
-                  ))}
-                </Select>
+                <div className="w-full">
+                  <label className="block text-sm font-medium mb-1">Seleccionar avatar</label>
+                  <select 
+                    className="w-full p-2 border rounded-md"
+                    onChange={(e) => {
+                      setAvatarId(e.target.value);
+                    }}
+                  >
+                    <option value="">Selecciona un avatar</option>
+                    {AVATARS.map((avatar) => (
+                      <option key={avatar.id} value={avatar.id}>
+                        {avatar.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="w-full">
+                  <label className="block text-sm font-medium mb-1">Seleccionar idioma</label>
+                  <select 
+                    className="w-full p-2 border rounded-md"
+                    value={language}
+                    onChange={(e) => {
+                      setLanguage(e.target.value);
+                    }}
+                  >
+                    <option value="">Seleccionar idioma</option>
+                    {STT_LANGUAGE_LIST.map((lang) => (
+                      <option key={lang.key} value={lang.key}>
+                        {lang.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
               <Button
                 className="bg-gradient-to-tr from-indigo-500 to-indigo-300 w-full text-white"
@@ -327,7 +328,9 @@ export default function InteractiveAvatar() {
               </Button>
             </div>
           ) : (
-            <Spinner color="default" size="lg" />
+            <div className="flex justify-center">
+              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-500"></div>
+            </div>
           )}
         </CardBody>
         <Divider />
