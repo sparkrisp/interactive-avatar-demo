@@ -12,6 +12,7 @@
     "skipLibCheck": true,
     "strict": false,
     "noImplicitAny": false,
+    "forceConsistentCasingInFileNames": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
@@ -24,6 +25,7 @@
     },
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "ignoreDeprecations": "5.0",
     "plugins": [
       {
         "name": "next"

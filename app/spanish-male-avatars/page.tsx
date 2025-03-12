@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardBody, CardHeader, Divider, Chip, Spinner, Button, Image } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Divider, Button, Image } from "@nextui-org/react";
 
 interface Avatar {
   id: string;
@@ -60,8 +60,9 @@ export default function SpanishMaleAvatarsPage() {
       <h1 className="text-3xl font-bold mb-6">Avatares Masculinos con Voz en Español</h1>
       
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <Spinner size="lg" label="Cargando avatares y voces..." />
+        <div className="flex justify-center items-center h-64 flex-col gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+          <p className="text-gray-600">Cargando avatares y voces...</p>
         </div>
       ) : error ? (
         <Card className="bg-red-100 mb-8">
@@ -105,7 +106,9 @@ export default function SpanishMaleAvatarsPage() {
                           <div>
                             <h3 className="font-semibold">{avatar.name}</h3>
                             <p className="text-sm text-gray-500">{avatar.description || 'Sin descripción'}</p>
-                            <Chip size="sm" className="mt-2" color="primary">ID: {avatar.id}</Chip>
+                            <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mt-2">
+                              ID: {avatar.id}
+                            </span>
                           </div>
                         </div>
                       </Card>
@@ -130,9 +133,13 @@ export default function SpanishMaleAvatarsPage() {
                           <h3 className="font-semibold">{voice.name}</h3>
                           <p className="text-sm text-gray-500">{voice.description || 'Sin descripción'}</p>
                           <div className="flex gap-2 mt-2">
-                            <Chip size="sm" color="primary">ID: {voice.id}</Chip>
+                            <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                              ID: {voice.id}
+                            </span>
                             {voice.language && (
-                              <Chip size="sm" color="secondary">Idioma: {voice.language}</Chip>
+                              <span className="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">
+                                Idioma: {voice.language}
+                              </span>
                             )}
                           </div>
                         </div>
