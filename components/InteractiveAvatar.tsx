@@ -285,8 +285,11 @@ export default function InteractiveAvatar() {
             <div className="h-full justify-center items-center flex flex-col gap-8 w-[500px] self-center">
               <div className="flex flex-col gap-2 w-full">
                 <div className="w-full">
-                  <label className="block text-sm font-medium mb-1">Seleccionar avatar</label>
+                  <label htmlFor="avatar-select" className="block text-sm font-medium mb-1">
+                    Seleccionar avatar
+                  </label>
                   <select 
+                    id="avatar-select"
                     className="w-full p-2 border rounded-md"
                     onChange={(e) => {
                       setAvatarId(e.target.value);
@@ -301,8 +304,11 @@ export default function InteractiveAvatar() {
                   </select>
                 </div>
                 <div className="w-full">
-                  <label className="block text-sm font-medium mb-1">Seleccionar idioma</label>
+                  <label htmlFor="language-select" className="block text-sm font-medium mb-1">
+                    Seleccionar idioma
+                  </label>
                   <select 
+                    id="language-select"
                     className="w-full p-2 border rounded-md"
                     value={language}
                     onChange={(e) => {
