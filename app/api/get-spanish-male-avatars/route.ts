@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server.js';
+import { NextResponse } from 'next/server';
 
 const HEYGEN_API_KEY = process.env.HEYGEN_API_KEY;
 
@@ -22,82 +22,81 @@ export async function GET() {
 
     if (!tokenResponse.ok) {
       const errorText = await tokenResponse.text();
-      console.error('Error al obtener token de streaming:', errorText);
-      return NextResponse.json({ 
-        error: 'Error al obtener token de streaming', 
-        status: tokenResponse.status,
-        details: errorText
-      }, { status: tokenResponse.status });
+      console.error('Error al obtener token de acceso:', errorText);
+      return NextResponse.json({ error: `Error al obtener token de acceso: ${errorText}` }, { status: 500 });
     }
 
-    const tokenData = await tokenResponse.json();
-    const streamingToken = tokenData.data.token;
-    console.log('Token de streaming obtenido correctamente');
+    const token = await tokenResponse.text();
+    console.log('Token de acceso obtenido correctamente');
 
-    // En lugar de intentar obtener avatares y voces directamente de la API,
-    // proporcionamos una lista predefinida de avatares masculinos y voces en español
-    // basados en la documentación y ejemplos de Heygen
-    
-    const predefinedMaleAvatars = [
+    // Obtener avatares disponibles
+    console.log('Obteniendo avatares disponibles...');
+    const avatarsResponse = await fetch(
+      "https://api.heygen.com/v1/avatar.list",
       {
-        id: 'Onat_Suit_Front_public',
-        name: 'Eduardo - Enólogo Profesional',
-        description: 'Avatar masculino con traje, ideal para presentaciones profesionales',
-        thumbnail_url: 'https://via.placeholder.com/150?text=Eduardo'
+        method: "GET",
+        headers: {
+          "x-api-key": HEYGEN_API_KEY,
+        },
       },
-      {
-        id: 'Onat_Casual_Front_public',
-        name: 'Eduardo - Casual',
-        description: 'Versión casual del avatar Eduardo',
-        thumbnail_url: 'https://via.placeholder.com/150?text=Eduardo+Casual'
-      },
-      {
-        id: 'Noah_Front_public',
-        name: 'Noah',
-        description: 'Avatar masculino joven y moderno',
-        thumbnail_url: 'https://via.placeholder.com/150?text=Noah'
-      },
-      {
-        id: 'Yoshi_Front_public',
-        name: 'Yoshi',
-        description: 'Avatar masculino de aspecto asiático',
-        thumbnail_url: 'https://via.placeholder.com/150?text=Yoshi'
-      }
-    ];
-    
-    const predefinedSpanishVoices = [
-      {
-        id: 'ffb5979428d642abaa9cae60110824e3',
-        name: 'Español - Masculino',
-        description: 'Voz masculina en español con acento neutro',
-        language: 'es'
-      },
-      {
-        id: 'es_male_miguel',
-        name: 'Miguel',
-        description: 'Voz masculina en español con acento castellano',
-        language: 'es-ES'
-      },
-      {
-        id: 'es_male_carlos',
-        name: 'Carlos',
-        description: 'Voz masculina en español con acento latinoamericano',
-        language: 'es-419'
-      }
-    ];
+    );
 
-    // Devolver los resultados
-    return NextResponse.json({
-      success: true,
-      token: streamingToken,
-      maleAvatars: predefinedMaleAvatars,
-      spanishVoices: predefinedSpanishVoices
+    if (!avatarsResponse.ok) {
+      const errorText = await avatarsResponse.text();
+      console.error('Error al obtener avatares:', errorText);
+      return NextResponse.json({ error: `Error al obtener avatares: ${errorText}` }, { status: 500 });
+    }
+
+    const avatarsData = await avatarsResponse.json();
+    console.log(`Se encontraron ${avatarsData.data.length} avatares en total`);
+
+    // Filtrar avatares masculinos
+    const maleAvatars = avatarsData.data.filter((avatar: any) => 
+      avatar.gender === 'male'
+    );
+    console.log(`Se encontraron ${maleAvatars.length} avatares masculinos`);
+
+    // Obtener voces disponibles
+    console.log('Obteniendo voces disponibles...');
+    const voicesResponse = await fetch(
+      "https://api.heygen.com/v1/voice.list",
+      {
+        method: "GET",
+        headers: {
+          "x-api-key": HEYGEN_API_KEY,
+        },
+      },
+    );
+
+    if (!voicesResponse.ok) {
+      const errorText = await voicesResponse.text();
+      console.error('Error al obtener voces:', errorText);
+      return NextResponse.json({ error: `Error al obtener voces: ${errorText}` }, { status: 500 });
+    }
+
+    const voicesData = await voicesResponse.json();
+    console.log(`Se encontraron ${voicesData.data.length} voces en total`);
+
+    // Filtrar voces en español
+    const spanishVoices = voicesData.data.filter((voice: any) => 
+      voice.language?.toLowerCase().includes('spanish') || 
+      voice.language?.toLowerCase().includes('español')
+    );
+    console.log(`Se encontraron ${spanishVoices.length} voces en español`);
+
+    return NextResponse.json({ 
+      success: true, 
+      token,
+      maleAvatars, 
+      spanishVoices,
+      totalAvatars: avatarsData.data.length,
+      totalVoices: voicesData.data.length
     });
   } catch (error) {
-    console.error('Error al obtener token de streaming:', error);
+    console.error('Error en el endpoint:', error);
     return NextResponse.json({ 
-      error: 'Error al obtener token de streaming',
-      details: error instanceof Error ? error.message : 'Error desconocido'
+      success: false, 
+      error: error instanceof Error ? error.message : 'Error desconocido' 
     }, { status: 500 });
   }
 }
