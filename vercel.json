@@ -2,6 +2,5 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "outputDirectory": ".next",
-  "comment": "Configuración actualizada para permitir despliegues"
+  "outputDirectory": ".next"
 }
