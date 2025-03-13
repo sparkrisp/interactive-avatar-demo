@@ -1,6 +1,5 @@
 {
   "buildCommand": "npm run build",
-  "ignoreCommand": "echo 'Ignoring TypeScript errors'",
   "installCommand": "npm install",
   "framework": "nextjs",
   "outputDirectory": ".next"
