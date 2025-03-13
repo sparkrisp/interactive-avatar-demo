@@ -5,6 +5,8 @@
 This is a sample project and was bootstrapped using [NextJS](https://nextjs.org/).
 Feel free to play around with the existing code and please leave any feedback for the SDK [here](https://github.com/HeyGen-Official/StreamingAvatarSDK/discussions).
 
+_Última actualización: 12 de marzo de 2025_
+
 ## Getting Started FAQ
 
 ### Setting up the demo
